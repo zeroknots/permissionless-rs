@@ -23,7 +23,7 @@ fn main() {
 
     // Parse the file
     match parse_tx_file(file_path) {
-        Ok(data) => println!("Parsed data: {:#?}", data),
+        Ok(data) => println!("Parsing data"),
         Err(e) => eprintln!("Error parsing file: {:?}", e),
     }
 

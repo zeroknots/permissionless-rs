@@ -2,6 +2,7 @@
   "version": "1.0",
   "chainId": "11155111",
   "createdAt": 1721221168991,
+  "accountType": "safe7579",
   "meta": {
     "name": "Transactions Batch",
     "description": "",
