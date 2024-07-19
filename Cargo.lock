@@ -817,6 +817,7 @@ dependencies = [
  "hex",
  "serde",
  "serde_json",
+ "tx_builder",
 ]
 
 [[package]]
@@ -3383,6 +3384,7 @@ version = "0.1.0"
 dependencies = [
  "clap",
  "ethereum-types",
+ "ethers",
  "hex",
  "serde",
  "serde_json",

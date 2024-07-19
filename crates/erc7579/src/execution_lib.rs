@@ -1,11 +1,5 @@
 use ethers::types::{Address, Bytes, U256};
-
-#[derive(Clone, Debug)]
-pub struct Execution {
-    pub target: Address,
-    pub value: U256,
-    pub call_data: Bytes,
-}
+use tx_builder::Execution;
 
 pub struct ExecutionLib;
 
@@ -39,23 +33,24 @@ impl ExecutionLib {
         executions
     }
 
-    pub fn encode_batch(executions: &[Execution]) -> Vec<u8> {
-        let mut encoded = Vec::new();
-        let mut buffer = [0u8; 32];
-        
-        U256::from(executions.len()).to_big_endian(&mut buffer);
-        encoded.extend_from_slice(&buffer);
-        
-        for execution in executions {
-            encoded.extend_from_slice(execution.target.as_bytes());
-            execution.value.to_big_endian(&mut buffer);
-            encoded.extend_from_slice(&buffer);
-            U256::from(execution.call_data.len()).to_big_endian(&mut buffer);
-            encoded.extend_from_slice(&buffer);
-            encoded.extend_from_slice(&execution.call_data);
-        }
-        
-        encoded
+    pub fn encode_batch(executions: Vec<Execution>) -> Bytes {
+        // let mut encoded = Vec::new();
+        // let mut buffer = [0u8; 32];
+        //
+        // U256::from(executions.len()).to_big_endian(&mut buffer);
+        // encoded.extend_from_slice(&buffer);
+        //
+        // for execution in executions {
+        //     encoded.extend_from_slice(execution.target.as_bytes());
+        //     execution.value.to_big_endian(&mut buffer);
+        //     encoded.extend_from_slice(&buffer);
+        //     U256::from(execution.call_data.len()).to_big_endian(&mut buffer);
+        //     encoded.extend_from_slice(&buffer);
+        //     encoded.extend_from_slice(&execution.call_data);
+        // }
+        //
+        // encoded.into()
+        return Bytes::from(vec![1]);
     }
 
     pub fn decode_single(execution_calldata: &[u8]) -> (Address, U256, Bytes) {
@@ -66,13 +61,14 @@ impl ExecutionLib {
         (target, value, call_data)
     }
 
-    pub fn encode_single(target: Address, value: U256, call_data: &[u8]) -> Vec<u8> {
-        let mut user_op_calldata = Vec::new();
-        let mut buffer = [0u8; 32];
-        user_op_calldata.extend_from_slice(target.as_bytes());
-        value.to_big_endian(&mut buffer);
-        user_op_calldata.extend_from_slice(&buffer);
-        user_op_calldata.extend_from_slice(call_data);
-        user_op_calldata
+    pub fn encode_single(target: Address, value: U256, call_data: Option<Bytes>) -> Bytes{
+        // let mut user_op_calldata = Vec::new();
+        // let mut buffer = [0u8; 32];
+        // user_op_calldata.extend_from_slice(target.as_bytes());
+        // value.to_big_endian(&mut buffer);
+        // user_op_calldata.extend_from_slice(&buffer);
+        // user_op_calldata.extend_from_slice(call_data);
+        // user_op_calldata
+        return Bytes::from(vec![1]);
     }
 }

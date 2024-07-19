@@ -7,8 +7,8 @@ use std::path::PathBuf;
 use ethereum_types::{Address, U256, H256 };
 use ethers::types::Bytes;
 use ethers::prelude::*;
-use crate::types::Transaction;
 use crate::execution_lib::ExecutionLib;
+use tx_builder::Execution;
 
 
 type ModuleType = H256;
@@ -45,15 +45,15 @@ pub trait ERC7579Account {
 
 
 
-pub fn execute<T: ERC7579Account>(tx: Vec<Transaction>) -> Result<Bytes, Box<dyn std::error::Error>> {
+pub fn execute<T: ERC7579Account>(tx: Vec<Execution>) -> Result<Bytes, Box<dyn std::error::Error>> {
     match tx.len() {
         0 => Err("No transactions to execute".into()),
         1 => Ok(Bytes::from(ExecutionLib::encode_single(
             tx[0].target,
             tx[0].value,
-            &tx[0].data
+            tx[0].call_data
         ))),
-        _ => Ok(Bytes::from(ExecutionLib::encode_batch(&tx)))
+        _ => Ok(Bytes::from(ExecutionLib::encode_batch(tx)))
     }
 }
 

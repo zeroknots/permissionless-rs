@@ -1,7 +1,8 @@
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
 use clap::Parser;
-// use ethereum_types::{Address, U256, Bytes};
+use ethereum_types::{Address, U256, H256 };
+use ethers::types::Bytes;
 
 
 #[derive(Parser, Debug)]
@@ -19,7 +20,7 @@ pub struct TransactionData {
     #[serde(rename = "createdAt")]
     pub created_at: u64,
     pub meta: Meta,
-    pub transactions: Vec<Transaction>,
+    pub transactions: Vec<Execution>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -35,10 +36,10 @@ pub struct Meta {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct Transaction {
-    pub to: String,
-    pub value: String,
-    pub data: Option<String>,
+pub struct Execution{
+    pub target: Address,
+    pub value: U256,
+    pub call_data: Option<Bytes>,
 }
 
 // #[derive(Serialize, Deserialize, Clone, Debug)]
