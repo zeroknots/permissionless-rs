@@ -11,14 +11,14 @@
   },
   "transactions": [
     {
-      "to": "0x0000000000E1AA5927a7B55DDD5D21BeD5E482a7",
+      "target": "0x0000000000E1AA5927a7B55DDD5D21BeD5E482a7",
       "value": "0",
-      "data": null
+      "call_data": "0x4141"
     },
     {
-      "to": "0x0000000000E1AA5927a7B55DDD5D21BeD5E482a7",
+      "target": "0x0000000000E1AA5927a7B55DDD5D21BeD5E482a7",
       "value": "0",
-      "data": null
+      "call_data": null
     }
   ]
 }

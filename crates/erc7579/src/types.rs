@@ -51,7 +51,7 @@ pub fn execute<T: ERC7579Account>(tx: Vec<Execution>) -> Result<Bytes, Box<dyn s
         1 => Ok(Bytes::from(ExecutionLib::encode_single(
             tx[0].target,
             tx[0].value,
-            tx[0].call_data
+            tx[0].call_data.clone()
         ))),
         _ => Ok(Bytes::from(ExecutionLib::encode_batch(tx)))
     }
