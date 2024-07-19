@@ -1,7 +1,7 @@
 use clap::Parser;
+use erc7579::types::{execute, ERC7579Account};
 use std::path::PathBuf;
 use tx_builder::parse_tx_file;
-use erc7579::types::{execute, ERC7579Account};
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
@@ -12,7 +12,6 @@ struct Args {
 }
 
 fn main() {
-
     // Parse command-line arguments
     let args = Args::parse();
 
@@ -29,16 +28,8 @@ fn main() {
 
     let data = parse_tx_file(file_path);
 
-
     println!("{:#?}", data);
 
     let execution = execute(data.unwrap().transactions).unwrap();
     println!("execution call_data: {:?}", execution);
-
-
-
-
-
 }
-
-

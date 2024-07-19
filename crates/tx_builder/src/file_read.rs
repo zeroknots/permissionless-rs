@@ -16,9 +16,9 @@ pub fn parse_tx_file(file_path: &str) -> Result<TransactionData, Box<dyn std::er
     };
     println!("File opened");
     let reader = BufReader::new(file);
-    
+
     // Parse the JSON
     let data: TransactionData = serde_json::from_reader(reader)?;
-    
+
     Ok(data)
 }

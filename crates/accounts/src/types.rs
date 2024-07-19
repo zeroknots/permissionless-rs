@@ -1,11 +1,11 @@
+use ethereum_types::{Address, H256, U256};
 use ethers::prelude::*;
+use ethers::prelude::*;
+use ethers::types::Bytes;
 use serde::{Deserialize, Serialize};
 use std::fs::File;
 use std::io::BufReader;
 use std::path::PathBuf;
-use ethereum_types::{Address, U256, H256 };
-use ethers::types::Bytes;
-use ethers::prelude::*;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PackedUserOperation {
@@ -20,8 +20,12 @@ pub struct PackedUserOperation {
     pub signature: Bytes,
 }
 
-
-pub trait UserOpBuilder{
-    fn create_user_op(nonce: U256, validator_address: Address, account_address: Address, call_data:Bytes) -> PackedUserOperation;
-    fn get_nonce(nonces: &[U256], validator_address:Address) -> U256;
+pub trait UserOpBuilder {
+    fn create_user_op(
+        nonce: U256,
+        validator_address: Address,
+        account_address: Address,
+        call_data: Bytes,
+    ) -> PackedUserOperation;
+    fn get_nonce(nonces: &[U256], validator_address: Address) -> U256;
 }

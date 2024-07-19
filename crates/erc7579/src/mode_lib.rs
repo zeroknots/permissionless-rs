@@ -32,7 +32,12 @@ impl ModeLib {
         (call_type, exec_type, mode_selector, mode_payload)
     }
 
-    pub fn encode(call_type: CallType, exec_type: ExecType, mode: ModeSelector, payload: ModePayload) -> ModeCode {
+    pub fn encode(
+        call_type: CallType,
+        exec_type: ExecType,
+        mode: ModeSelector,
+        payload: ModePayload,
+    ) -> ModeCode {
         let mut bytes = [0u8; 32];
         bytes[0] = call_type;
         bytes[1] = exec_type;

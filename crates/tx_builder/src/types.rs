@@ -1,9 +1,8 @@
+use clap::Parser;
+use ethereum_types::{Address, H256, U256};
+use ethers::types::Bytes;
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
-use clap::Parser;
-use ethereum_types::{Address, U256, H256 };
-use ethers::types::Bytes;
-
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
@@ -36,7 +35,7 @@ pub struct Meta {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct Execution{
+pub struct Execution {
     pub target: Address,
     pub value: U256,
     pub call_data: Option<Bytes>,
