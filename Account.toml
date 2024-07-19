@@ -1,0 +1,4 @@
+[account]
+ens = "zeroknots.eth"
+address = "0x1234567890abcdef1234567890abcdef12345678"
+account_type = "safe7579"

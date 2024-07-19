@@ -34,23 +34,25 @@ impl ExecutionLib {
     }
 
     pub fn encode_batch(executions: Vec<Execution>) -> Bytes {
-        // let mut encoded = Vec::new();
-        // let mut buffer = [0u8; 32];
-        //
-        // U256::from(executions.len()).to_big_endian(&mut buffer);
-        // encoded.extend_from_slice(&buffer);
-        //
-        // for execution in executions {
-        //     encoded.extend_from_slice(execution.target.as_bytes());
-        //     execution.value.to_big_endian(&mut buffer);
-        //     encoded.extend_from_slice(&buffer);
-        //     U256::from(execution.call_data.len()).to_big_endian(&mut buffer);
-        //     encoded.extend_from_slice(&buffer);
-        //     encoded.extend_from_slice(&execution.call_data);
-        // }
-        //
-        // encoded.into()
-        return Bytes::from(vec![1]);
+        let mut encoded = Vec::new();
+        let mut buffer = [0u8; 32];
+
+        U256::from(executions.len()).to_big_endian(&mut buffer);
+        encoded.extend_from_slice(&buffer);
+
+        for execution in executions {
+            encoded.extend_from_slice(execution.target.as_bytes());
+            execution.value.to_big_endian(&mut buffer);
+            encoded.extend_from_slice(&buffer);
+            // U256::from(execution.call_data.unwrap().len()).to_big_endian(&mut buffer);
+            match execution.call_data {
+                Some(data) => encoded.extend_from_slice(data.as_ref()),
+                None => {}
+            }
+            encoded.extend_from_slice(&buffer);
+        }
+
+        return Bytes::from(encoded);
     }
 
     pub fn decode_single(execution_calldata: &[u8]) -> (Address, U256, Bytes) {
@@ -62,13 +64,20 @@ impl ExecutionLib {
     }
 
     pub fn encode_single(target: Address, value: U256, call_data: Option<Bytes>) -> Bytes{
-        // let mut user_op_calldata = Vec::new();
-        // let mut buffer = [0u8; 32];
-        // user_op_calldata.extend_from_slice(target.as_bytes());
-        // value.to_big_endian(&mut buffer);
-        // user_op_calldata.extend_from_slice(&buffer);
-        // user_op_calldata.extend_from_slice(call_data);
-        // user_op_calldata
-        return Bytes::from(vec![1]);
+        let mut user_op_calldata = Vec::new();
+        let mut buffer = [0u8; 32];
+        user_op_calldata.extend_from_slice(target.as_bytes());
+        value.to_big_endian(&mut buffer);
+        user_op_calldata.extend_from_slice(&buffer);
+        match call_data {
+            Some(data) => {
+                U256::from(data.len()).to_big_endian(&mut buffer);
+                user_op_calldata.extend_from_slice(data.as_ref());
+            }
+            None => {
+                U256::from(0).to_big_endian(&mut buffer);
+            }
+        }
+        return Bytes::from(user_op_calldata);
     }
 }

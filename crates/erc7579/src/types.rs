@@ -31,11 +31,6 @@ pub struct SmartAccount {
     pub modules: InstalledModules,
 }
 
-impl SmartAccount {
-    pub fn modules(&self) -> &InstalledModules {
-        &self.modules
-    }
-}
 
 pub trait ERC7579Account {
     fn execute( tx: Vec<Transaction>) -> Result<Bytes, Box<dyn std::error::Error>>;
@@ -45,7 +40,7 @@ pub trait ERC7579Account {
 
 
 
-pub fn execute<T: ERC7579Account>(tx: Vec<Execution>) -> Result<Bytes, Box<dyn std::error::Error>> {
+pub fn execute(tx: Vec<Execution>) -> Result<Bytes, Box<dyn std::error::Error>> {
     match tx.len() {
         0 => Err("No transactions to execute".into()),
         1 => Ok(Bytes::from(ExecutionLib::encode_single(

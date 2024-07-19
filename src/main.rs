@@ -1,7 +1,7 @@
 use clap::Parser;
 use std::path::PathBuf;
 use tx_builder::parse_tx_file;
-use erc7579::types::ERC7579Account;
+use erc7579::types::{execute, ERC7579Account};
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
@@ -27,8 +27,15 @@ fn main() {
         Err(e) => eprintln!("Error parsing file: {:?}", e),
     }
 
-    let data = parse_tx_file("./examples/example.json");
+    let data = parse_tx_file(file_path);
+
+
     println!("{:#?}", data);
+
+    let execution = execute(data.unwrap().transactions).unwrap();
+    println!("execution call_data: {:?}", execution);
+
+
 
 
 
