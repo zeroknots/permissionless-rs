@@ -1,3 +1,4 @@
+use accounts::{PackedUserOperation, Safe7579, UserOpBuilder};
 use clap::Parser;
 use erc7579::types::{execute, ERC7579Account};
 use std::path::PathBuf;
@@ -26,10 +27,18 @@ fn main() {
         Err(e) => eprintln!("Error parsing file: {:?}", e),
     }
 
-    let data = parse_tx_file(file_path);
+    let tx = parse_tx_file(file_path).unwrap();
 
-    println!("{:#?}", data);
+    println!("{:#?}", tx);
 
-    let execution = execute(data.unwrap().transactions).unwrap();
-    println!("execution call_data: {:?}", execution);
+    let call_data = execute(tx.transactions).unwrap();
+    println!("execution call_data: {:?}", call_data);
+
+    let safe = Safe7579;
+    let user_op = safe.new(
+        tx.meta.account_address.unwrap(),
+        tx.meta.validator_module,
+        call_data,
+    );
+    println!("{:#?}", user_op);
 }

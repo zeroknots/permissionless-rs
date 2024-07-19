@@ -1,13 +1,13 @@
+use crate::entrypoint::EntryPoint;
 use crate::execution_lib::ExecutionLib;
 use crate::mode_lib::ModeLib;
 use ethereum_types::{Address, H256, U256};
+use ethers::middleware::Middleware;
 use ethers::prelude::*;
-use ethers::prelude::*;
+use ethers::providers::{Http, Provider};
 use ethers::types::Bytes;
 use serde::{Deserialize, Serialize};
-use std::fs::File;
-use std::io::BufReader;
-use std::path::PathBuf;
+use std::sync::Arc;
 use tx_builder::Execution;
 
 type ModuleType = H256;
@@ -23,25 +23,36 @@ struct InstalledModules {
     pub module_types: Vec<ModuleType>,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct SmartAccount {
+pub struct SmartAccount<M: Middleware> {
     pub address: Address,
     pub balance: U256,
-    pub modules: InstalledModules,
+    pub entrypoint: EntryPoint<M>,
+    pub rpc: Arc<Provider<Http>>,
+}
+pub trait ERC7579Account<M: Middleware> {
+    // This could be a separate factory trait or associated function
+    fn new(address: Address, client: Arc<M>) -> Self;
+
+    fn execute(&self, tx: Vec<Execution>) -> Result<Bytes, Box<dyn std::error::Error>>;
+
 }
 
-pub trait ERC7579Account {
-    fn execute(tx: Vec<Transaction>) -> Result<Bytes, Box<dyn std::error::Error>>;
-    fn install_module(
-        module: Address,
-        module_type: ModuleType,
-        init_params: Bytes,
-    ) -> Result<Bytes, Box<dyn std::error::Error>>;
-    fn uninstall_module(
-        module: Address,
-        module_type: ModuleType,
-        init_params: Bytes,
-    ) -> Result<Bytes, Box<dyn std::error::Error>>;
+impl ERC7579Account<Provider<Http>> for SmartAccount<Provider<Http>> {
+    fn new(address: Address, client: Arc<Provider<Http>>) -> Self {
+        let entrypoint = EntryPoint::new(address, client.clone());
+        let balance = U256::zero();
+
+        SmartAccount {
+            address,
+            balance,
+            entrypoint,
+            rpc: client,
+        }
+    }
+
+    fn execute(&self, tx: Vec<Execution>) -> Result<Bytes, Box<dyn std::error::Error>> {
+        execute(tx)
+    }
 }
 
 pub fn execute(tx: Vec<Execution>) -> Result<Bytes, Box<dyn std::error::Error>> {
@@ -81,18 +92,3 @@ pub fn execute(tx: Vec<Execution>) -> Result<Bytes, Box<dyn std::error::Error>> 
     }
 }
 
-pub fn install_module<T: ERC7579Account>(
-    module: Address,
-    module_type: ModuleType,
-    init_params: Bytes,
-) -> Result<Bytes, Box<dyn std::error::Error>> {
-    T::install_module(module, module_type, init_params)
-}
-
-pub fn uninstall_module<T: ERC7579Account>(
-    module: Address,
-    module_type: ModuleType,
-    init_params: Bytes,
-) -> Result<Bytes, Box<dyn std::error::Error>> {
-    T::uninstall_module(module, module_type, init_params)
-}

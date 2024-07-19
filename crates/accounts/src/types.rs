@@ -21,11 +21,11 @@ pub struct PackedUserOperation {
 }
 
 pub trait UserOpBuilder {
-    fn create_user_op(
-        nonce: U256,
-        validator_address: Address,
+    fn new(
+        &self,
         account_address: Address,
+        validator_address: Address,
         call_data: Bytes,
     ) -> PackedUserOperation;
-    fn get_nonce(nonces: &[U256], validator_address: Address) -> U256;
+    fn get_nonce(&self, nonce: &U256, validator_address: Address) -> U256;
 }

@@ -29,9 +29,11 @@ pub struct Meta {
     #[serde(rename = "txBuilderVersion")]
     pub tx_builder_version: String,
     #[serde(rename = "accountAddress")]
-    pub account_address: String,
+    pub account_address: Option<Address>,
     #[serde(rename = "accountType")]
     pub account_type: String,
+    #[serde(rename = "validatorModule")]
+    pub validator_module: Address,
 }
 
 #[derive(Serialize, Deserialize, Debug)]

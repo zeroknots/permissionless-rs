@@ -5,6 +5,7 @@ edition = "2021"
 
 [dependencies]
 tx_builder = { path = "../tx_builder" }
+url = "2.3.1"  # You can use the latest version available
 ethers = { version = "2.0", features = ["abigen"] }
 ethereum-types = "0.14"  # or whatever version is compatible with your ethers version
 serde = { version = "1.0", features = ["derive"] }

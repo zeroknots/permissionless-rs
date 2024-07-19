@@ -8,7 +8,8 @@
     "description": "",
     "txBuilderVersion": "1.16.5",
     "accountAddress": "0xA734172b0501875F03a71Fd3417d644484F23d69",
-    "accountType": "safe7579"
+    "accountType": "safe7579",
+    "validatorModule": "0xA734172b0501875F03a71Fd3417d644484F23d69"
   },
   "transactions": [
     {
