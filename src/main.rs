@@ -1,6 +1,7 @@
 use clap::Parser;
 use std::path::PathBuf;
 use tx_builder::parse_tx_file;
+use erc7579::types::ERC7579Account;
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]

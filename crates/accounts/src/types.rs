@@ -3,8 +3,8 @@ use serde::{Deserialize, Serialize};
 use std::fs::File;
 use std::io::BufReader;
 use std::path::PathBuf;
-use serde::{Serialize, Deserialize};
-use ethereum_types::{Address, U256, H256, Bytes};
+use ethereum_types::{Address, U256, H256 };
+use ethers::types::Bytes;
 use ethers::prelude::*;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]

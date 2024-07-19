@@ -18,7 +18,7 @@ const EXECTYPE_DEFAULT: ExecType = 0x00;
 const EXECTYPE_TRY: ExecType = 0x01;
 
 const MODE_DEFAULT: ModeSelector = [0x00; 4];
-const MODE_OFFSET: ModeSelector = keccak256("default.mode.offset")[0..4].try_into().unwrap();
+const MODE_OFFSET: ModeSelector = [0x01; 4]; // TODO
 
 pub struct ModeLib;
 

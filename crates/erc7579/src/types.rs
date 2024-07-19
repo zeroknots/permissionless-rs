@@ -4,8 +4,10 @@ use serde::{Deserialize, Serialize};
 use std::fs::File;
 use std::io::BufReader;
 use std::path::PathBuf;
-use ethereum_types::{Address, U256, H256, Bytes};
+use ethereum_types::{Address, U256, H256 };
+use ethers::types::Bytes;
 use ethers::prelude::*;
+use crate::types::Transaction;
 
 
 type ModuleType = H256;
@@ -26,6 +28,12 @@ pub struct SmartAccount {
     pub address: Address,
     pub balance: U256,
     pub modules: InstalledModules,
+}
+
+impl SmartAccount {
+    pub fn modules(&self) -> &InstalledModules {
+        &self.modules
+    }
 }
 
 pub trait ERC7579Account {
